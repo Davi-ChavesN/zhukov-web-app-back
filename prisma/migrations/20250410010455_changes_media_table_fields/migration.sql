@@ -1,0 +1,9 @@
+-- AlterTable
+ALTER TABLE "Media" ADD COLUMN     "genres" TEXT,
+ALTER COLUMN "episodes" DROP NOT NULL,
+ALTER COLUMN "episode_duration" DROP NOT NULL,
+ALTER COLUMN "start_date" DROP NOT NULL,
+ALTER COLUMN "end_date" DROP NOT NULL,
+ALTER COLUMN "season" DROP NOT NULL,
+ALTER COLUMN "average_score" DROP NOT NULL,
+ALTER COLUMN "studios" DROP NOT NULL;

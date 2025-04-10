@@ -11,6 +11,7 @@ export class UserRepository {
         return await this.prisma.user.create({
             data: {
                 name: dto.name,
+                nickname: dto.nickname,
                 email: dto.email,
                 birthDate: dto.birthDate,
                 password: dto.password,
@@ -32,11 +33,18 @@ export class UserRepository {
         });
     }
 
+    async readUserByEmail(email: string) {
+        return await this.prisma.user.findUnique({
+            where: { email },
+        });
+    }
+
     async updateUser(id: string, dto: UpdateUserDTO) {
         return await this.prisma.user.update({
             where: { id },
             data: {
                 name: dto.name,
+                nickname: dto.nickname,
                 email: dto.email,
                 birthDate: dto.birthDate,
                 password: dto.password,
