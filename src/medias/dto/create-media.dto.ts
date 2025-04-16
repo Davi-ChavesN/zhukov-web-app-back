@@ -1,57 +1,44 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateMediaDTO {
     @ApiProperty()
-    title?: string;
+    @IsNotEmpty()
+    @IsString()
+    title: string;
 
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
-    originalTitle: string;
+    director: string;
 
     @ApiProperty()
-    imageUrl?: string;
+    @IsNotEmpty()
+    @IsNumber()
+    releaseYear: number;
 
     @ApiProperty()
-    bannerurl?: string;
+    @IsNotEmpty()
+    @IsNumber()
+    duration: number;
 
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
-    description: string;
+    producer: string;
 
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
-    format: string;
-
-    @ApiProperty()
-    episodes?: number;
-
-    @ApiProperty()
-    episodesDuration?: number;
+    rating: string;
 
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
-    status: string;
+    posterUrl: string;
 
     @ApiProperty()
-    startDate?: Date;
-
-    @ApiProperty()
-    endDate?: Date;
-
-    @ApiProperty()
-    season?: string;
-
-    @ApiProperty()
-    averageScore?: number;
-    
-    @ApiProperty()
-    studios?: string[];
-
-    @ApiProperty()
-    genres?: string[];
+    @IsNotEmpty()
+    @IsString({ each: true })
+    genreIds: string[];
 }
