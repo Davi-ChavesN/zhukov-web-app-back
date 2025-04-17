@@ -27,6 +27,13 @@ export class UserService {
 
     async getUsers() {
         const users = await this.userRepository.readUsers();
+
+        if(!users) {
+            throw new NotFoundException({
+                message: "Users not found",
+            });
+        }
+
         return users;
     }
 
@@ -69,14 +76,15 @@ export class UserService {
     }
 
     async deleteUser(id: string) {
-        const deletedUser = await this.userRepository.deleteUser(id);
-
-        if (!deletedUser) {
+        const user = await this.userRepository.readUserById(id);
+        
+        if (!user) {
             throw new NotFoundException({
                 message: "User not found",
             });
         }
-
+        
+        const deletedUser = await this.userRepository.deleteUser(id);
         return deletedUser;
     }
 }

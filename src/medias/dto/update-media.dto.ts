@@ -1,57 +1,44 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class UpdateMediaDTO {
     @ApiProperty()
-    title?: string;
-
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsString()
-    originalTitle: string;
-
-    @ApiProperty()
-    imageUrl?: string;
-
-    @ApiProperty()
-    bannerurl?: string;
-
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsString()
-    description: string;
-
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsString()
-    format: string;
-
-    @ApiProperty()
-    episodes?: number;
-
-    @ApiProperty()
-    episodesDuration?: number;
-
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsString()
-    status: string;
-
-    @ApiProperty()
-    startDate?: Date;
-
-    @ApiProperty()
-    endDate?: Date;
-
-    @ApiProperty()
-    season?: string;
-
-    @ApiProperty()
-    averageScore?: number;
-
-    @ApiProperty()
-    studios?: string[];
-
-    @ApiProperty()
-    genres?: string[];
+        @IsNotEmpty()
+        @IsString()
+        title: string;
+    
+        @ApiProperty()
+        @IsNotEmpty()
+        @IsString()
+        director: string;
+    
+        @ApiProperty()
+        @IsNotEmpty()
+        @IsNumber()
+        releaseYear: number;
+    
+        @ApiProperty()
+        @IsNotEmpty()
+        @IsNumber()
+        duration: number;
+    
+        @ApiProperty()
+        @IsNotEmpty()
+        @IsString()
+        producer: string;
+    
+        @ApiProperty()
+        @IsNotEmpty()
+        @IsString()
+        rating: string;
+    
+        @ApiProperty()
+        @IsNotEmpty()
+        @IsString()
+        posterUrl: string;
+    
+        @ApiProperty()
+        @IsNotEmpty()
+        @IsString({ each: true })
+        genreIds: string[];
 }

@@ -5,8 +5,8 @@ import { UserOutputDTO } from "./dto/user-output.dto";
 import { UserService } from "./users.service";
 import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
 
-@ApiTags("Users")
-@Controller("users")
+@ApiTags("User")
+@Controller("user")
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
