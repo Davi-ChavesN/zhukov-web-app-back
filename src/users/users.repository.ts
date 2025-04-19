@@ -39,6 +39,12 @@ export class UserRepository {
         });
     }
 
+    async readUserByNickname(nickname: string) {
+        return await this.prisma.user.findUnique({
+            where: { nickname },
+        });
+    }
+
     async updateUser(id: string, dto: UpdateUserDTO) {
         return await this.prisma.user.update({
             where: { id },

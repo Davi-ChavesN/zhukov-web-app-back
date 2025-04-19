@@ -5,8 +5,8 @@ import { UserOutputDTO } from "./dto/user-output.dto";
 import { UserService } from "./users.service";
 import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
 
-@ApiTags("Users")
-@Controller("users")
+@ApiTags("User")
+@Controller("user")
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
@@ -22,7 +22,7 @@ export class UserController {
     @ApiOkResponse({description: "Users found"})
     @ApiNotFoundResponse({description: "No users found"})
     async getUsers() {
-        const users = await this.userService.getUsers();
+        const users = await this.userService.readUsers();
         return users.map((user) => UserOutputDTO.toResponse(user));
     }
 
@@ -30,7 +30,7 @@ export class UserController {
     @ApiOkResponse({description: "User found"})
     @ApiNotFoundResponse({description: "User not found"})
     async getUser(@Param("id") id: string) {
-        const response = await this.userService.getUserById(id);
+        const response = await this.userService.readUserById(id);
         return UserOutputDTO.toResponse(response);
     }
 

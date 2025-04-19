@@ -25,12 +25,19 @@ export class UserService {
         return newUser;
     }
 
-    async getUsers() {
+    async readUsers() {
         const users = await this.userRepository.readUsers();
+
+        if(!users) {
+            throw new NotFoundException({
+                message: "Users not found",
+            });
+        }
+
         return users;
     }
 
-    async getUserById(id: string) {
+    async readUserById(id: string) {
         const user = await this.userRepository.readUserById(id);
 
         if (!user) {
@@ -42,7 +49,7 @@ export class UserService {
         return user;
     }
 
-    async getUserByEmail(email: string) {
+    async readUserByEmail(email: string) {
         const user = await this.userRepository.readUserByEmail(email);
 
         if (!user) {
@@ -69,14 +76,15 @@ export class UserService {
     }
 
     async deleteUser(id: string) {
-        const deletedUser = await this.userRepository.deleteUser(id);
-
-        if (!deletedUser) {
+        const user = await this.userRepository.readUserById(id);
+        
+        if (!user) {
             throw new NotFoundException({
                 message: "User not found",
             });
         }
-
+        
+        const deletedUser = await this.userRepository.deleteUser(id);
         return deletedUser;
     }
 }
