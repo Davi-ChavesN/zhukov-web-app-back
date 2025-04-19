@@ -21,7 +21,7 @@ export class MediaController {
     @ApiOkResponse({description: "Medias found"})
     @ApiNotFoundResponse({description: "No medias found"})
     async getMedias() {
-        const medias = await this.mediaService.getMedias();
+        const medias = await this.mediaService.readMedias();
         return medias.map((media) => MediaOutputDTO.toResponse(media));
     }
 
@@ -29,7 +29,7 @@ export class MediaController {
     @ApiOkResponse({description: "Media found"})
     @ApiNotFoundResponse({description: "Media not found"})
     async getMedia(@Param("id") id: string) {
-        const response = await this.mediaService.getMediaById(id);
+        const response = await this.mediaService.readMediaById(id);
         return MediaOutputDTO.toResponse(response);
     }
 

@@ -25,7 +25,7 @@ export class UserService {
         return newUser;
     }
 
-    async getUsers() {
+    async readUsers() {
         const users = await this.userRepository.readUsers();
 
         if(!users) {
@@ -37,7 +37,7 @@ export class UserService {
         return users;
     }
 
-    async getUserById(id: string) {
+    async readUserById(id: string) {
         const user = await this.userRepository.readUserById(id);
 
         if (!user) {
@@ -49,7 +49,7 @@ export class UserService {
         return user;
     }
 
-    async getUserByEmail(email: string) {
+    async readUserByEmail(email: string) {
         const user = await this.userRepository.readUserByEmail(email);
 
         if (!user) {

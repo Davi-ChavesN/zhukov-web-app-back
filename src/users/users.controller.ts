@@ -22,7 +22,7 @@ export class UserController {
     @ApiOkResponse({description: "Users found"})
     @ApiNotFoundResponse({description: "No users found"})
     async getUsers() {
-        const users = await this.userService.getUsers();
+        const users = await this.userService.readUsers();
         return users.map((user) => UserOutputDTO.toResponse(user));
     }
 
@@ -30,7 +30,7 @@ export class UserController {
     @ApiOkResponse({description: "User found"})
     @ApiNotFoundResponse({description: "User not found"})
     async getUser(@Param("id") id: string) {
-        const response = await this.userService.getUserById(id);
+        const response = await this.userService.readUserById(id);
         return UserOutputDTO.toResponse(response);
     }
 

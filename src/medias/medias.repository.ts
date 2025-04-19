@@ -32,7 +32,7 @@ export class MediaRepository {
                     },
                 },
             },
-        })
+        });
     }
 
     async readMedias() {
@@ -44,7 +44,7 @@ export class MediaRepository {
                     },
                 },
             },
-        })
+        });
     }
 
     async readMediaById(id: string) {

@@ -9,4 +9,4 @@ import { MediaService } from "./medias.service";
     providers: [PrismaService, MediaRepository, MediaService],
     exports: [],
 })
-export class MediaModule {}
+export class MediaModule { }

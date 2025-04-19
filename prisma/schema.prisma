@@ -37,7 +37,7 @@ model Media {
   rating      String
   posterUrl   String       @map("poster_url")
   reviews     Review[]
-  mediaGenres  MediaGenre[]
+  mediaGenres MediaGenre[]
 }
 
 model Genre {

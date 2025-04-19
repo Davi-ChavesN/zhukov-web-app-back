@@ -12,7 +12,7 @@ export class MediaService {
         return newMedia;
     }
 
-    async getMedias() {
+    async readMedias() {
         const medias = await this.mediaRepository.readMedias();
 
         if (!medias) {
@@ -24,7 +24,7 @@ export class MediaService {
         return medias;
     }
 
-    async getMediaById(id: string) {
+    async readMediaById(id: string) {
         const media = await this.mediaRepository.readMediaById(id);
 
         if(!media) {
