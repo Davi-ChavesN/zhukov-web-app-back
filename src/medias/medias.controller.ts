@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { MediaService } from "./medias.service";
-import { CreateMediaDTO } from "./dto/create-media.dto";
-import { MediaOutputDTO } from "./dto/media-output.dto";
-import { UpdateMediaDTO } from "./dto/update-media.dto";
+import { CreateMediaDTO } from "./dto/in/create-media.dto";
+import { MediaOutputDTO } from "./dto/out/media-output.dto";
+import { UpdateMediaDTO } from "./dto/in/update-media.dto";
 
 @ApiTags("Media")
 @Controller("media")

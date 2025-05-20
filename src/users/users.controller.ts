@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
-import { CreateUserDTO } from "./dto/create-user.dto";
-import { UpdateUserDTO } from "./dto/update-user.dto";
-import { UserOutputDTO } from "./dto/user-output.dto";
+import { CreateUserDTO } from "./dto/in/create-user.dto";
+import { UpdateUserDTO } from "./dto/in/update-user.dto";
+import { UserOutputDTO } from "./dto/out/user-output.dto";
 import { UserService } from "./users.service";
 import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 

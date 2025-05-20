@@ -1,9 +1,9 @@
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { GenreService } from "./genres.service";
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { CreateGenreDTO } from "./dto/create-genre.dto";
+import { CreateGenreDTO } from "./dto/in/create-genre.dto";
 import { GenreOutputDTO } from "./dto/genre-output.dto";
-import { UpdateGenreDTO } from "./dto/update-genre.dto";
+import { UpdateGenreDTO } from "./dto/in/update-genre.dto";
 
 @ApiTags("Genre")
 @Controller("genre")
