@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateUserDTO } from "./dto/create-user.dto";
-import { UpdateUserDTO } from "./dto/update-user.dto";
+import { CreateUserDTO } from "./dto/in/create-user.dto";
+import { UpdateUserDTO } from "./dto/in/update-user.dto";
 import { UserRepository } from "./users.repository";
 import * as bcrypt from "bcrypt";
 import { ConflictException } from "@nestjs/common/exceptions/conflict.exception";
@@ -10,11 +10,20 @@ export class UserService {
     constructor(private readonly userRepository: UserRepository) { }
 
     async createUser(dto: CreateUserDTO) {
-        const userExists = await this.userRepository.readUserByEmail(dto.email);
+        const userExistsEmail = await this.userRepository.readUserByEmail(dto.email);
+        const userExistsNickname = await this.userRepository.readUserByNickname(dto.nickname);
 
-        if (userExists) {
+        if (userExistsEmail) {
             throw new ConflictException({
-                message: "Email already registered"
+                message: "Email already registered",
+                clientMessage: "Email já registrado"
+            })
+        }
+
+        if (userExistsNickname) {
+            throw new ConflictException({
+                message: "Nickname already registered",
+                clientMessage: "Nome de usuário já registrado"
             })
         }
 
@@ -31,6 +40,7 @@ export class UserService {
         if(!users) {
             throw new NotFoundException({
                 message: "Users not found",
+                clientMessage: "Usuários não encontrados"
             });
         }
 
@@ -43,6 +53,7 @@ export class UserService {
         if (!user) {
             throw new NotFoundException({
                 message: "User not found",
+                clientMessage: "Usuário não encontrado"
             });
         }
 
@@ -55,6 +66,7 @@ export class UserService {
         if (!user) {
             throw new NotFoundException({
                 message: "User not found",
+                clientMessage: "Usuário não encontrado"
             });
         }
 
@@ -67,6 +79,7 @@ export class UserService {
         if (!user) {
             throw new NotFoundException({
                 message: "User not found",
+                clientMessage: "Usuário não encontrado"
             });
         }
 
@@ -81,6 +94,7 @@ export class UserService {
         if (!user) {
             throw new NotFoundException({
                 message: "User not found",
+                clientMessage: "Usuário não encontrado"
             });
         }
         
