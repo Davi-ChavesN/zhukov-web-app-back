@@ -46,9 +46,16 @@ export class AuthService {
             });
         }
 
-        const payload = { sub: user.id, email: user.email, nickname: user.nickname };
+        const payload = { 
+            id: user.id, 
+            email: user.email, 
+            nickname: user.nickname,
+            name: user.name,
+            birthDate: user.birthDate,
+            role: user.userRole,
+        };
         const token = this.jwtService.sign(payload);
 
-        return { token };
+        return { token, user: payload };
     }
 }

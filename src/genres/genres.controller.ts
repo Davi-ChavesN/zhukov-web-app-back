@@ -2,7 +2,7 @@ import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, A
 import { GenreService } from "./genres.service";
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { CreateGenreDTO } from "./dto/in/create-genre.dto";
-import { GenreOutputDTO } from "./dto/genre-output.dto";
+import { GenreOutputDTO } from "./dto/out/genre-output.dto";
 import { UpdateGenreDTO } from "./dto/in/update-genre.dto";
 
 @ApiTags("Genre")
