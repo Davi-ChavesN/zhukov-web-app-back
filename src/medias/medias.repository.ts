@@ -44,6 +44,9 @@ export class MediaRepository {
                     },
                 },
             },
+            orderBy: {
+                title: 'asc',
+            }
         });
     }
 
