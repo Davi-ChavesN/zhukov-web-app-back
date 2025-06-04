@@ -4,6 +4,7 @@ import { UpdateUserDTO } from "./dto/in/update-user.dto";
 import { UserOutputDTO } from "./dto/out/user-output.dto";
 import { UserService } from "./users.service";
 import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { UpdateUserPasswordDTO } from "./dto/in/update-user-password.dto";
 
 @ApiTags("User")
 @Controller("user")
@@ -43,6 +44,15 @@ export class UserController {
     @ApiNotFoundResponse({ description: "User not found" })
     async updateUser(@Param("id") id: string, @Body() dto: UpdateUserDTO) {
         const response = await this.userService.updateUser(id, dto);
+        return UserOutputDTO.toResponse(response);
+    }
+
+    @Put("update-password/:id")
+    @ApiOperation({ summary: "Update user password by ID" })
+    @ApiResponse({ status: 200, description: "Password updated successfully" })
+    @ApiResponse({ status: 404, description: "User not found" })
+    async updateUserPassword(@Param("id") id: string, @Body() dto: UpdateUserPasswordDTO) {
+        const response = await this.userService.updateUserPassword(id, dto);
         return UserOutputDTO.toResponse(response);
     }
 

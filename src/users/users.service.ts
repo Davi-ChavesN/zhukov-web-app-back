@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { CreateUserDTO } from "./dto/in/create-user.dto";
 import { UpdateUserDTO } from "./dto/in/update-user.dto";
 import { UserRepository } from "./users.repository";
 import * as bcrypt from "bcrypt";
 import { ConflictException } from "@nestjs/common/exceptions/conflict.exception";
+import { UpdateUserPasswordDTO } from "./dto/in/update-user-password.dto";
 
 @Injectable()
 export class UserService {
@@ -37,7 +38,7 @@ export class UserService {
     async readUsers() {
         const users = await this.userRepository.readUsers();
 
-        if(!users) {
+        if (!users) {
             throw new NotFoundException({
                 message: "Users not found",
                 clientMessage: "Usuários não encontrados"
@@ -83,21 +84,59 @@ export class UserService {
             });
         }
 
-        const updatedUser = await this.userRepository.updateUser(id, dto);
+        const isPasswordValid = await bcrypt.compare(dto.confirmPassword, user.password);
+        if (!isPasswordValid) {
+            throw new UnauthorizedException({
+                message: "Invalid password",
+                clientMessage: "Senha inválida"
+            });
+        }
 
+        const updatedUser = await this.userRepository.updateUser(id, {
+            ...dto,
+            birthDate: new Date(dto.birthDate),
+        });
         return updatedUser;
+
     }
 
-    async deleteUser(id: string) {
+    async updateUserPassword(id: string, dto: UpdateUserPasswordDTO) {
         const user = await this.userRepository.readUserById(id);
-        
+
         if (!user) {
             throw new NotFoundException({
                 message: "User not found",
                 clientMessage: "Usuário não encontrado"
             });
         }
-        
+
+        const isPasswordValid = await bcrypt.compare(dto.password, user.password);
+        if (!isPasswordValid) {
+            throw new UnauthorizedException({
+                message: "Invalid password",
+                clientMessage: "Senha inválida"
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(dto.newPassword, 10);
+
+        const updatedUser = await this.userRepository.updateUserPassword(id, {
+            ...dto,
+            newPassword: hashedPassword
+        });
+        return updatedUser;
+    }
+
+    async deleteUser(id: string) {
+        const user = await this.userRepository.readUserById(id);
+
+        if (!user) {
+            throw new NotFoundException({
+                message: "User not found",
+                clientMessage: "Usuário não encontrado"
+            });
+        }
+
         const deletedUser = await this.userRepository.deleteUser(id);
         return deletedUser;
     }

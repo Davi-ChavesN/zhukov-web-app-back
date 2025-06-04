@@ -51,7 +51,7 @@ export class AuthService {
             email: user.email, 
             nickname: user.nickname,
             name: user.name,
-            birthDate: user.birthDate,
+            birthDate: user.birthDate.toISOString().split('T')[0],
             role: user.userRole,
         };
         const token = this.jwtService.sign(payload);
