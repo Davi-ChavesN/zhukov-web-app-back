@@ -3,7 +3,7 @@ export class UserOutputDTO {
     name: string;
     nickname: string;
     email: string;
-    birthDate: Date;
+    birthDate: string;
     userRole: string;
 
     private constructor(
@@ -11,7 +11,7 @@ export class UserOutputDTO {
         name: string,
         nickname: string,
         email: string,
-        birthDate: Date,
+        birthDate: string,
         userRole: string,
     ) {
         this.id = id;
@@ -30,6 +30,14 @@ export class UserOutputDTO {
         birthDate: Date;
         userRole: string;
     }): UserOutputDTO {
-        return new UserOutputDTO(user.id, user.name, user.nickname, user.email, user.birthDate, user.userRole);
+        const formattedDate = user.birthDate.toISOString().split('T')[0];
+        return new UserOutputDTO(
+            user.id,
+            user.name,
+            user.nickname,
+            user.email,
+            formattedDate,
+            user.userRole
+        );
     }
 }
