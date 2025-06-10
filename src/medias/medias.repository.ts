@@ -11,12 +11,14 @@ export class MediaRepository {
         return await this.prsima.media.create({
             data: {
                 title: dto.title,
+                description: dto.description,
                 director: dto.director,
                 releaseYear: dto.releaseYear,
                 duration: dto.duration,
                 producer: dto.producer,
-                rating: dto.rating,
                 posterUrl: dto.posterUrl,
+                bannerUrl: dto.bannerUrl,
+                trailerUrl: dto.trailerUrl,
                 mediaGenres: {
                     create: dto.genreIds.map((genreId) => ({
                         genre: {
@@ -30,6 +32,11 @@ export class MediaRepository {
                     include: {
                         genre: true,
                     },
+                    orderBy: {
+                        genre: {
+                            description: 'asc',
+                        }
+                    }
                 },
             },
         });
@@ -42,6 +49,11 @@ export class MediaRepository {
                     include: {
                         genre: true,
                     },
+                    orderBy: {
+                        genre: {
+                            description: 'asc',
+                        }
+                    }
                 },
             },
             orderBy: {
@@ -58,6 +70,11 @@ export class MediaRepository {
                     include: {
                         genre: true,
                     },
+                    orderBy: {
+                        genre: {
+                            description: 'asc',
+                        }
+                    }
                 },
             },
         });
@@ -68,12 +85,15 @@ export class MediaRepository {
             where: { id },
             data: {
                 title: dto.title,
+                description: dto.description,
                 director: dto.director,
                 releaseYear: dto.releaseYear,
                 duration: dto.duration,
                 producer: dto.producer,
-                rating: dto.rating,
+                score: dto.score,
                 posterUrl: dto.posterUrl,
+                bannerUrl: dto.bannerUrl,
+                trailerUrl: dto.trailerUrl,
                 mediaGenres: {
                     deleteMany: {},
                     create: dto.genreIds.map((genreId) => ({
@@ -88,6 +108,11 @@ export class MediaRepository {
                     include: {
                         genre: true,
                     },
+                    orderBy: {
+                        genre: {
+                            description: 'asc',
+                        }
+                    }
                 },
             },
         })

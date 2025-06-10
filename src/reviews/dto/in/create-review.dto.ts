@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsDecimal, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateReviewDTO {
     @ApiProperty()
@@ -14,7 +14,7 @@ export class CreateReviewDTO {
 
     @ApiProperty()
     @IsNotEmpty()
-    @IsNumber()
+    @IsDecimal()
     score: number;
 
     @ApiProperty({required: false, nullable: true})

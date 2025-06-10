@@ -1,10 +1,10 @@
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CreateUserDTO } from "./dto/in/create-user.dto";
+import { UpdateUserPasswordDTO } from "./dto/in/update-user-password.dto";
 import { UpdateUserDTO } from "./dto/in/update-user.dto";
 import { UserOutputDTO } from "./dto/out/user-output.dto";
 import { UserService } from "./users.service";
-import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { UpdateUserPasswordDTO } from "./dto/in/update-user-password.dto";
 
 @ApiTags("User")
 @Controller("user")
@@ -13,8 +13,9 @@ export class UserController {
 
     @Post("register")
     @ApiOperation({ summary: "Registers a new user" })
-    @ApiCreatedResponse({ description: "User registered successfully" })
-    @ApiConflictResponse({ description: "Email already registered" })
+    @ApiResponse({ status: 201, description: "User registered successfully", type: UserOutputDTO })
+    @ApiResponse({ status: 400, description: "Email already registered" })
+    @ApiBody({ type: CreateUserDTO })
     async register(@Body() dto: CreateUserDTO) {
         const response = await this.userService.createUser(dto);
         return UserOutputDTO.toResponse(response);
@@ -22,8 +23,8 @@ export class UserController {
 
     @Get("all")
     @ApiOperation({ summary: "Gets all users" })
-    @ApiOkResponse({ description: "Users found" })
-    @ApiNotFoundResponse({ description: "No users found" })
+    @ApiResponse({ status: 200, description: "Users found", type: [UserOutputDTO] })
+    @ApiResponse({ status: 404, description: "No users found" })
     async getUsers() {
         const users = await this.userService.readUsers();
         return users.map((user) => UserOutputDTO.toResponse(user));
@@ -31,8 +32,9 @@ export class UserController {
 
     @Get("/:id")
     @ApiOperation({ summary: "Gets user by ID" })
-    @ApiOkResponse({ description: "User found" })
-    @ApiNotFoundResponse({ description: "User not found" })
+    @ApiResponse({ status: 200, description: "User found", type: UserOutputDTO })
+    @ApiResponse({ status: 404, description: "User not found" })
+    @ApiParam({ name: "id", description: "User ID", type: String })
     async getUser(@Param("id") id: string) {
         const response = await this.userService.readUserById(id);
         return UserOutputDTO.toResponse(response);
@@ -40,8 +42,10 @@ export class UserController {
 
     @Put("update/:id")
     @ApiOperation({ summary: "Updates user by ID" })
-    @ApiOkResponse({ description: "User updated successfully" })
-    @ApiNotFoundResponse({ description: "User not found" })
+    @ApiResponse({ status: 200, description: "User updated successfully", type: UserOutputDTO })
+    @ApiResponse({ status: 404, description: "User not found" })
+    @ApiParam({ name: "id", description: "User ID", type: String })
+    @ApiBody({ type: UpdateUserDTO })
     async updateUser(@Param("id") id: string, @Body() dto: UpdateUserDTO) {
         const response = await this.userService.updateUser(id, dto);
         return UserOutputDTO.toResponse(response);
@@ -49,17 +53,20 @@ export class UserController {
 
     @Put("update-password/:id")
     @ApiOperation({ summary: "Update user password by ID" })
-    @ApiResponse({ status: 200, description: "Password updated successfully" })
+    @ApiResponse({ status: 200, description: "Password updated successfully", type: UserOutputDTO })
     @ApiResponse({ status: 404, description: "User not found" })
+    @ApiParam({ name: "id", description: "User ID", type: String })
+    @ApiBody({ type: UpdateUserPasswordDTO })
     async updateUserPassword(@Param("id") id: string, @Body() dto: UpdateUserPasswordDTO) {
         const response = await this.userService.updateUserPassword(id, dto);
         return UserOutputDTO.toResponse(response);
     }
 
-    @Put("delete/:id")
+    @Delete("delete/:id")
     @ApiOperation({ summary: "Deletes user by ID" })
-    @ApiOkResponse({ description: "User deleted successfully" })
-    @ApiNotFoundResponse({ description: "User not found" })
+    @ApiResponse({ status: 200, description: "User deleted successfully", type: UserOutputDTO })
+    @ApiResponse({ status: 200, description: "User not found" })
+    @ApiParam({ name: "id", description: "User ID", type: String })
     async deleteUser(@Param("id") id: string) {
         const response = await this.userService.deleteUser(id);
         return UserOutputDTO.toResponse(response);
