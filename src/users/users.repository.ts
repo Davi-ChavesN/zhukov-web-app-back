@@ -22,9 +22,9 @@ export class UserRepository {
 
     async readUsers() {
         return await this.prisma.user.findMany({
-            where: {
-                status: "active",
-            }
+            // where: {
+            //     status: "active",
+            // }
         });
     }
 
@@ -67,11 +67,29 @@ export class UserRepository {
         })
     }
 
+    async updateUserRole(id: string, dto: UpdateUserDTO) {
+        return await this.prisma.user.update({
+            where: {id},
+            data: {
+                userRole: dto.userRole
+            }
+        })
+    }
+
     async deleteUser(id: string) {
         return await this.prisma.user.update({
             where: { id },
             data: {
                 status: "inactive",
+            }
+        });
+    }
+
+    async enableUser(id: string) {
+        return await this.prisma.user.update({
+            where: { id },
+            data: {
+                status: "active"
             }
         });
     }

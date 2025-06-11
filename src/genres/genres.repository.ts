@@ -16,7 +16,11 @@ export class GenreRepository {
     }
 
     async readGenres() {
-        return await this.prsima.genre.findMany();
+        return await this.prsima.genre.findMany({
+            orderBy: {
+                description: 'asc',
+            }
+        });
     }
 
     async readGenreById(id: string) {

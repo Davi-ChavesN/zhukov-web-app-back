@@ -37,6 +37,13 @@ export class AuthService {
             });
         }
 
+        if(user.status === 'inactive') {
+            throw new UnauthorizedException({
+                message: "Disabled user",
+                clientMessage: "Usuário desativado"
+            });
+        }
+
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {

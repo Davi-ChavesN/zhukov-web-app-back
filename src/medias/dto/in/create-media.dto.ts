@@ -10,6 +10,11 @@ export class CreateMediaDTO {
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
+    description: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsString()
     director: string;
 
     @ApiProperty()
@@ -30,12 +35,17 @@ export class CreateMediaDTO {
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
-    rating: string;
+    posterUrl: string;
 
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
-    posterUrl: string;
+    bannerUrl: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsString()
+    trailerUrl: string;
 
     @ApiProperty()
     @IsNotEmpty()

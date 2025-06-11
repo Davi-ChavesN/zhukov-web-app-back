@@ -15,17 +15,25 @@ export class UserService {
         const userExistsNickname = await this.userRepository.readUserByNickname(dto.nickname);
 
         if (userExistsEmail) {
-            throw new ConflictException({
-                message: "Email already registered",
-                clientMessage: "Email já registrado"
-            })
+            if (userExistsEmail.status === 'inactive') {
+                return this.userRepository.enableUser(userExistsEmail.id);
+            } else {
+                throw new ConflictException({
+                    message: "Email already registered",
+                    clientMessage: "Email já registrado"
+                });
+            }
         }
 
         if (userExistsNickname) {
-            throw new ConflictException({
-                message: "Nickname already registered",
-                clientMessage: "Nome de usuário já registrado"
-            })
+            if (userExistsNickname.status === 'inactive') {
+                return this.userRepository.enableUser(userExistsNickname.id);
+            } else {
+                throw new ConflictException({
+                    message: "Nickname already registered",
+                    clientMessage: "Nome de usuário já registrado"
+                });
+            }
         }
 
         const hashedPassword = await bcrypt.hash(dto.password, 10);
@@ -129,6 +137,20 @@ export class UserService {
         return updatedUser;
     }
 
+    async updateUserRole(id: string, dto: UpdateUserDTO) {
+        const user = await this.userRepository.readUserById(id);
+
+        if (!user) {
+            throw new NotFoundException({
+                message: "User not found",
+                clientMessage: "Usuário não encontrado"
+            });
+        }
+
+        const updatedUser = await this.userRepository.updateUserRole(id, dto);
+        return updatedUser;
+    }
+
     async deleteUser(id: string) {
         const user = await this.userRepository.readUserById(id);
 
@@ -141,5 +163,19 @@ export class UserService {
 
         const deletedUser = await this.userRepository.deleteUser(id);
         return deletedUser;
+    }
+
+    async enableUser(id: string) {
+        const user = await this.userRepository.readUserById(id);
+
+        if (!user) {
+            throw new NotFoundException({
+                message: "User not found",
+                clientMessage: "Usuário não encontrado"
+            });
+        }
+
+        const enableedUser = await this.userRepository.enableUser(id);
+        return enableedUser;
     }
 }

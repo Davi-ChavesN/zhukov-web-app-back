@@ -5,63 +5,66 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  nickname  String   @unique
-  email     String   @unique
-  birthDate DateTime @map("birth_date")
-  password  String
-  status    String   @default("active")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  userRole  String   @default("user") @map("user_role")
-  reviews   Review[]
+    id        String   @id @default(uuid())
+    name      String
+    nickname  String   @unique
+    email     String   @unique
+    birthDate DateTime @map("birth_date")
+    password  String
+    status    String   @default("active")
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    userRole  String   @default("user") @map("user_role")
+    reviews   Review[]
 }
 
 model Media {
-  id          String       @id @default(uuid())
-  title       String
-  director    String
-  releaseYear Int          @map("release_year")
-  duration    Int
-  producer    String
-  rating      String
-  posterUrl   String       @map("poster_url")
-  reviews     Review[]
-  mediaGenres MediaGenre[]
+    id          String       @id @default(uuid())
+    title       String
+    description String
+    director    String
+    releaseYear Int          @map("release_year")
+    duration    Int
+    producer    String
+    score       Float        @default(0.0)
+    posterUrl   String       @map("poster_url")
+    bannerUrl   String       @map("banner_url")
+    trailerUrl  String       @map("trailer_url")
+    reviews     Review[]
+    mediaGenres MediaGenre[]
 }
 
 model Genre {
-  id          String       @id @default(uuid())
-  description String
-  MediaGenre  MediaGenre[]
+    id          String       @id @default(uuid())
+    description String
+    MediaGenre  MediaGenre[]
 }
 
 model MediaGenre {
-  genreId String @map("genre_id")
-  mediaId String @map("media_id")
-  genre   Genre  @relation(fields: [genreId], references: [id])
-  media   Media  @relation(fields: [mediaId], references: [id])
+    genreId String @map("genre_id")
+    mediaId String @map("media_id")
+    genre   Genre  @relation(fields: [genreId], references: [id])
+    media   Media  @relation(fields: [mediaId], references: [id])
 
-  @@id([genreId, mediaId])
+    @@id([genreId, mediaId])
 }
 
 model Review {
-  userId  String  @map("user_id")
-  mediaId String  @map("media_id")
-  score   Float
-  comment String?
-  user    User    @relation(fields: [userId], references: [id])
-  media   Media   @relation(fields: [mediaId], references: [id])
+    userId  String  @map("user_id")
+    mediaId String  @map("media_id")
+    score   Float
+    comment String?
+    user    User    @relation(fields: [userId], references: [id])
+    media   Media   @relation(fields: [mediaId], references: [id])
 
-  @@id([userId, mediaId])
+    @@id([userId, mediaId])
 }

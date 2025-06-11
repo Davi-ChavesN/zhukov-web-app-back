@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { MediaRepository } from "./medias.repository";
 import { CreateMediaDTO } from "./dto/in/create-media.dto";
 import { UpdateMediaDTO } from "./dto/in/update-media.dto";
@@ -27,7 +27,7 @@ export class MediaService {
     async readMediaById(id: string) {
         const media = await this.mediaRepository.readMediaById(id);
 
-        if(!media) {
+        if (!media) {
             throw new NotFoundException({
                 message: "Media not found",
             });
@@ -39,9 +39,15 @@ export class MediaService {
     async updateMedia(id: string, dto: UpdateMediaDTO) {
         const media = await this.mediaRepository.readMediaById(id);
 
-        if(!media) {
+        if (!media) {
             throw new NotFoundException({
                 message: "Media not found",
+            });
+        }
+
+        if (dto.genreIds !== undefined && !Array.isArray(dto.genreIds)) {
+            throw new BadRequestException({
+                message: "genreIds must be an array of strings",
             });
         }
 
@@ -53,7 +59,7 @@ export class MediaService {
     async deleteMedia(id: string) {
         const media = await this.mediaRepository.readMediaById(id);
 
-        if(!media) {
+        if (!media) {
             throw new NotFoundException({
                 message: "Media not found",
             });
