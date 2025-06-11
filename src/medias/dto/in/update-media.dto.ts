@@ -1,59 +1,59 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsDecimal, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsDecimal, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class UpdateMediaDTO {
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiPropertyOptional()
+    @IsOptional()
     @IsString()
-    title: string;
+    title?: string;
 
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiPropertyOptional()
+    @IsOptional()
     @IsString()
-    description: string;
+    description?: string;
 
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiPropertyOptional()
+    @IsOptional()
     @IsString()
-    director: string;
+    director?: string;
 
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiPropertyOptional()
+    @IsOptional()
     @IsNumber()
-    releaseYear: number;
+    releaseYear?: number;
 
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiPropertyOptional()
+    @IsOptional()
     @IsNumber()
-    duration: number;
+    duration?: number;
 
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiPropertyOptional()
+    @IsOptional()
     @IsString()
-    producer: string;
+    producer?: string;
 
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsDecimal()
-    score: number;
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsNumber()
+    score?: number;
 
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiPropertyOptional()
+    @IsOptional()
     @IsString()
-    posterUrl: string;
+    posterUrl?: string;
 
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiPropertyOptional()
+    @IsOptional()
     @IsString()
-    bannerUrl: string;
+    bannerUrl?: string;
 
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiPropertyOptional()
+    @IsOptional()
     @IsString()
-    trailerUrl: string;
+    trailerUrl?: string;
 
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiPropertyOptional()
+    @IsOptional()
     @IsString({ each: true })
-    genreIds: string[];
+    genreIds?: string[];
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CreateUserDTO } from "./dto/in/create-user.dto";
 import { UpdateUserPasswordDTO } from "./dto/in/update-user-password.dto";
@@ -61,6 +61,17 @@ export class UserController {
         const response = await this.userService.updateUserPassword(id, dto);
         return UserOutputDTO.toResponse(response);
     }
+    
+    @Patch("update-role/:id")
+    @ApiOperation({ summary: "Update user role by ID" })
+    @ApiResponse({ status: 200, description: "Role updated successfully", type: UserOutputDTO })
+    @ApiResponse({ status: 404, description: "User not found" })
+    @ApiParam({ name: "id", description: "User ID", type: String })
+    @ApiBody({ type: UpdateUserPasswordDTO })
+    async updateUserRole(@Param("id") id: string, @Body() dto: UpdateUserDTO) {
+        const response = await this.userService.updateUserRole(id, dto);
+        return UserOutputDTO.toResponse(response);
+    }
 
     @Delete("delete/:id")
     @ApiOperation({ summary: "Deletes user by ID" })
@@ -69,6 +80,16 @@ export class UserController {
     @ApiParam({ name: "id", description: "User ID", type: String })
     async deleteUser(@Param("id") id: string) {
         const response = await this.userService.deleteUser(id);
+        return UserOutputDTO.toResponse(response);
+    }
+
+    @Patch("enable/:id")
+    @ApiOperation({ summary: "Enables user by ID" })
+    @ApiResponse({ status: 200, description: "User enabled successfully", type: UserOutputDTO })
+    @ApiResponse({ status: 200, description: "User not found" })
+    @ApiParam({ name: "id", description: "User ID", type: String })
+    async enableUser(@Param("id") id: string) {
+        const response = await this.userService.enableUser(id);
         return UserOutputDTO.toResponse(response);
     }
 }

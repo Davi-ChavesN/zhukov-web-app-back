@@ -19,6 +19,9 @@ export class UserOutputDTO {
     @ApiProperty({ example: "user", description: "Role assigned to the user (e.g., admin, user)" })
     userRole: string;
 
+    @ApiProperty({ example: "active", description: "Shows if the account is enabled"})
+    status: string;
+
     private constructor(
         id: string,
         name: string,
@@ -26,6 +29,7 @@ export class UserOutputDTO {
         email: string,
         birthDate: string,
         userRole: string,
+        status: string,
     ) {
         this.id = id;
         this.name = name;
@@ -33,6 +37,7 @@ export class UserOutputDTO {
         this.email = email;
         this.birthDate = birthDate;
         this.userRole = userRole;
+        this.status = status;
     }
 
     static toResponse(user: {
@@ -42,6 +47,7 @@ export class UserOutputDTO {
         email: string;
         birthDate: Date;
         userRole: string;
+        status: string;
     }): UserOutputDTO {
         const formattedDate = user.birthDate.toISOString().split('T')[0];
         return new UserOutputDTO(
@@ -50,7 +56,8 @@ export class UserOutputDTO {
             user.nickname,
             user.email,
             formattedDate,
-            user.userRole
+            user.userRole,
+            user.status
         );
     }
 }

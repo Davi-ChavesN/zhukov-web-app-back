@@ -25,6 +25,11 @@ export class UpdateUserDTO {
 
     @ApiProperty()
     @IsNotEmpty()
+    @IsString()
+    userRole: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
     @MinLength(6)
     confirmPassword: string;
 }

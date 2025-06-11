@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from "@nestjs/common";
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { MediaService } from "./medias.service";
 import { CreateMediaDTO } from "./dto/in/create-media.dto";
@@ -36,7 +36,7 @@ export class MediaController {
         return MediaOutputDTO.toResponse(response);
     }
 
-    @Put("update/:id")
+    @Patch("update/:id")
     @ApiOperation({ summary: "Updates a media by ID" })
     @ApiOkResponse({ description: "Media updated successfully" })
     @ApiNotFoundResponse({ description: "Media not found" })
