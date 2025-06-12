@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ReviewService } from "./reviews.service";
 import { CreateReviewDTO } from "./dto/in/create-review.dto";
 import { ReviewOutputDTO } from "./dto/out/review-output.dto";
 import { UpdateReviewDTO } from "./dto/in/update-review.dto";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @ApiTags("Review")
 @Controller("review")
@@ -18,6 +19,7 @@ export class ReviewController {
         return ReviewOutputDTO.toResponse(response);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get("all")
     @ApiOperation({ summary: "Gets all reviews" })
     @ApiOkResponse({ description: "Reviews found" })
